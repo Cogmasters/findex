@@ -8,6 +8,8 @@
 #define FINDEX_TOKEN_DELIM  0x01
 #define FINDEX_PAIR_DELIM   0x05
 
+#define FINDEX_TOKEN_CHAR  "\x01"
+#define FINDEX_PAIR_CHAR   "\x05"
 /*
  * Searches the index table in the directory of the process
  * for a file, and extracts the key provided. Data is printed
