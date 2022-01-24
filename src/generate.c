@@ -16,10 +16,10 @@
 
 
 /* The output file. */
-FILE* outputFile;
+FILE* output_file;
 
 /* The key name. */
-char* attrName;
+char* attr_name;
 
 /* See if a file exists */
 int file_exists(const char *path) {
@@ -39,7 +39,7 @@ void check_errors(struct LibargProgram program, char* filename) {
         printf("%s", "\n");
         printf("%s", "    --help, -h      display this message\n");
         printf("%s", "    --file, -f      change output file\n");
-	printf("%s", "    --attr, -a      specify an attribute\n");
+	    printf("%s", "    --attr, -a      specify an attribute\n");
 
         exit(EXIT_SUCCESS);
     }
@@ -56,27 +56,31 @@ void check_errors(struct LibargProgram program, char* filename) {
 void populate_database() {
     struct dirent* de;
     DIR* dr = opendir(".");
-    char desc[384]; /* This is plenty of room, "trust me" */
+    char desc[FINDEX_DESC_LENGTH + 1]; /* This is plenty of room, "trust me" */
+
     if(dr == NULL) {
         printf("Failed to open current directory.\n");
         return;
     }
+
     while((de = readdir(dr)) != NULL) {
-	if(!((strcmp(de->d_name, ".") == 0) || (strcmp(de->d_name, "..") == 0))) {
-            printf("%s for %s? ", attrName, de->d_name);
+        if(!((strcmp(de->d_name, ".") == 0) || (strcmp(de->d_name, "..") == 0))) {
+            printf("%s for %s? ", attr_name, de->d_name);
             //memset(desc, 0x00, 512);
-            gets(desc);
-	    strtok(desc, "\n");
-	    if(strcmp(desc, "") != 0) {
-	            fprintf(outputFile, "%s"  FINDEX_TOKEN_CHAR "%s"  FINDEX_PAIR_CHAR "%s\n", de->d_name, attrName, desc);
-	    }
-	}
+            fgets(desc, FINDEX_DESC_LENGTH, stdin);
+
+            strtok(desc, "\n");
+
+            if(strcmp(desc, "") != 0) {
+                fprintf(output_file, "%s"  FINDEX_TOKEN_CHAR "%s"  FINDEX_PAIR_CHAR "%s\n", de->d_name, attr_name, desc);
+            }
+        }
     }
 }
 
 
 int main(int argc, char *argv[]) {
-    char* outputFilename;
+    char* output_filename;
 
     struct LibargArgument arguments[1] = {
         {LIBARG_ARGUMENT_NULL}
@@ -90,25 +94,24 @@ int main(int argc, char *argv[]) {
     struct LibargProgram program = {"findex_gen", argv, argc, options, arguments};
 
     if(libarg_get_option("--file", program) != -1) {
-        outputFilename = argv[libarg_get_option("--file", program) + 1];
-    }
-    else {
-        outputFilename = ".findex";
+        output_filename = argv[libarg_get_option("--file", program) + 1];
+    } else {
+        output_filename = ".findex";
     }
     
     if(libarg_get_option("--attr", program) != -1) {
-	attrName = argv[libarg_get_option("--attr", program) + 1];
-    }
-    else {
-	attrName = "description";
+	    attr_name = argv[libarg_get_option("--attr", program) + 1];
+    } else {
+	    attr_name = "description";
     }
 
-    check_errors(program, outputFilename);
+    check_errors(program, output_filename);
 
     printf("Generating database file...\nStrike RETURN to skip a line.\n");
-    outputFile = fopen(outputFilename, "w");
-    if(!outputFile) {
-        printf("Failed to open %s\n", outputFilename);
+    output_file = fopen(output_filename, "w");
+
+    if(!output_file) {
+        printf("Failed to open %s\n", output_filename);
         return -1;
     }
 
