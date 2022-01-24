@@ -41,7 +41,7 @@ void check_errors(struct LibargProgram program) {
 int main(int argc, char *argv[]) {
     struct LibargArgument arguments[3] = {
         {"file", NULL, NULL, LIBARG_POSITIONAL},
-        {"key", NULL, NULL, LIBARG_POSITIONAL},
+        {"key", NULL, NULL, LIBARG_OPTIONAL},
         {LIBARG_ARGUMENT_NULL}
     };
     struct LibargOption options[2] = {

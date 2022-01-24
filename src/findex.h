@@ -62,4 +62,15 @@ int ignore_until_delimiter_nl(FILE *findex, char delim);
 */
 void print_until_delimiter(FILE *findex, char delim);
 
+/*
+ * Print the contents of a file up until a delimiter is met,
+ * but return from the function when, or if a new line is
+ * found.
+ *
+ * @param findex: the index table to search
+ * @param delim: the delimiter to scan until
+ * @return: whether or not a new line was found
+*/
+int print_until_delimiter_nl(FILE *findex, char delim);
+
 #endif

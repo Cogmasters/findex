@@ -7,6 +7,25 @@
 
 #include "findex.h"
 
+void dump_all_keys(FILE *findex, const char *name) {
+    char key_name[FINDEX_MAX_KEYNAME + 1] = {0};
+
+    /* Dump all keys until the value contains a new line, which signals
+     * that this table entry is exhausted. */
+    while(1) {
+        scan_until_delimiter(findex, FINDEX_PAIR_DELIM, FINDEX_MAX_KEYNAME, key_name);
+
+        printf("%s - %s:\n", name, key_name);
+
+        if(print_until_delimiter_nl(findex, FINDEX_TOKEN_DELIM) == 1)
+            break;
+
+        printf("%c", '\n');
+    }        
+
+    printf("%s\n", key_name);
+}
+
 void extract_key(FILE *findex, const char *name, const char *key) {
     char key_name[FINDEX_MAX_KEYNAME + 1] = {0};
 
@@ -57,7 +76,11 @@ void lookup_file(const char *file, const char *key) {
         return;
     }
 
-    extract_key(findex, name, key);
+    if(key == NULL) {
+        dump_all_keys(findex, name);
+    } else {
+        extract_key(findex, name, key);
+    }
 
     fclose(findex);
 }

@@ -67,3 +67,20 @@ void print_until_delimiter(FILE *findex, char delim) {
     }
 }
 
+int print_until_delimiter_nl(FILE *findex, char delim) {
+    int byte = fgetc(findex);
+
+    while(1) {
+        if(byte == '\n')
+            return 1;
+
+        if(byte == EOF || byte == delim)
+            break;
+
+        printf("%c", byte);
+
+        byte = fgetc(findex);
+    }
+
+    return 0;
+}

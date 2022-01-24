@@ -1,3 +1,7 @@
+# Misc.
+*.findex
+findex
+
 # Prerequisites
 *.d
 
