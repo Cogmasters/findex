@@ -21,9 +21,9 @@ void dump_all_keys(FILE *findex, const char *name) {
             break;
 
         printf("%c", '\n');
-    }        
+    }
 
-    printf("%s\n", key_name);
+    printf("%c", '\n');
 }
 
 void extract_key(FILE *findex, const char *name, const char *key) {

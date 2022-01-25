@@ -27,3 +27,4 @@ findex_gen: $(OBJS_COMMON) $(OBJS_FIDXGEN)
 
 install: $(OBJS) findex
 	mv findex $(PREFIX)/findex
+	mv findex_gen $(PREFIX)/findex_gen
