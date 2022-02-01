@@ -1,0 +1,25 @@
+.TH FINDEX_GEN 1 "Feburary 1, 2022" "" "General Commands Manual"
+
+.SH NAME
+findex_gen - generate a lookup table for findex
+
+.SH SYNOPSIS
+.B findex_gen\fR [\fB\-h / --help\fR] [\fB\-f / --file\fR] [\fB\-a / --attr\fR]
+
+.SH DESCRIPTION
+.B findex_gen
+will produce a .findex file for the findex program, by prompting the user 
+to enter an attribute for files in the current directory. If you specify 
+the \fB\-a\fR option, you will be able to override the default attribute name
+of "description" with your newly-specified one. If you do not specify an 
+alternate output file with \fB\-f\fR, the program will write to .findex in the
+current directory. 
+
+.SH USAGE
+Upon starting findex_gen, the user will be prompted to enter an attribute
+description for every file in the current directory. If no input is entered,
+the program will not insert that filename into the outputted index. 
+
+
+.SH SEE ALSO
+.B findex_gen(1)
