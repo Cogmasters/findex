@@ -1,0 +1,23 @@
+.TH FINDEX_PROMPT 1 "February 3, 2022" "" "General Commands Manual"
+
+.SH NAME
+findex_prompt - generate a lookup table for findex
+
+.SH SYNOPSIS
+.B findex_prompt\fR [\fB\-h / --help\fR] [\fB\-f / --file\fR] [\fB\-a / --attr\fR]
+
+.SH DESCRIPTION
+.B findex_prompt
+will produce a \fB.findex\fR file by prompting the user to enter a list of filenames
+and an associated aspect that may be changed with \fB--attr\fR. The default attribute
+name is "description". Using \fB--file\fR will allow you to override the default
+output index filename of ".findex" with something user-specified.
+.SH USAGE
+Upon starting findex_prompt, the user will be prompted to enter an attribute
+description for every file in the current directory. If no input is entered,
+the program will not insert that filename into the outputted index and terminate.
+
+
+.SH SEE ALSO
+.B findex_gen(1)
+.B findex(1)

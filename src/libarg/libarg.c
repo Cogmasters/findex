@@ -160,7 +160,8 @@ void libarg_error_validate_option(const char *option, struct LibargProgram progr
     if(arguments >= program.options[option_index].parameters)
         return;
 
-    fprintf(stderr, "%s: option '%s' expected %i parameter(s), got %i\n", program.name, option, program.options[option_index].parameters, arguments);
+    fprintf(stderr, "%s: option '%s' expected %i parameter(s), got %i\n", program.name, option, 
+        program.options[option_index].parameters, arguments);
     fprintf(stderr, "Try '%s --help' for more information.\n", program.name);
 
     exit(EXIT_FAILURE);
