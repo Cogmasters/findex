@@ -55,8 +55,8 @@ void extract_key(FILE *findex, const char *name, const char *key) {
     printf("%c", '\n');
 }
 
-void lookup_file(const char *file, const char *key) {
-    FILE *findex = fopen("./.findex", "r");
+void lookup_file(const char *file, const char *key, const char *idxFile) {
+    FILE *findex = fopen(idxFile, "r");
     char name[FINDEX_MAX_FILENAME + 1] = {0};
 
     /* Scan the file until the file with the correct name is found. */
