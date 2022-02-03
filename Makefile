@@ -2,8 +2,8 @@ CC = cc
 CFLAGS = 
 PREFIX = /usr/local
 OBJS_COMMON = src/lookup.o src/delimiter.o src/libarg/libarg.o
-OBJS_FINDEX = src/main.o
-OBJS_FIDXGEN = src/generate.o
+OBJS_FINDEX = src/findex.o
+OBJS_FIDXGEN = src/findex_gen.o
 
 
 .PHONY: all clean
