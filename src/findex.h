@@ -19,8 +19,9 @@
  *
  * @param file: the file to search for
  * @param key: the key to extract
+ * @param idxFile: the index database filename, usually .findex
 */
-void lookup_file(const char *file, const char *key);
+void lookup_file(const char *file, const char *key, const char *idxFile);
 
 /*
  * Scan a file until a delimiter is met, and write the bytes

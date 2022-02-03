@@ -4,18 +4,30 @@
 findex - file indexing, tagging, and description program
 
 .SH SYNOPSIS
-.B findex\fR [\fB\-h / --help\fR]
+.B findex\fR [\fB\-h / --help\fR] [\fB\-f / --file\fR]
 .IR filename
 .IR [tag]
 
 .SH DESCRIPTION
 .B findex
-is a file indexing program. It consults a file in the current directory (.findex) that contains an index for files in the directory in which it resides. It is a key-value pair storage format, and each file can have an infinite amount of tags applied to it.
+is a file indexing program. It consults a file in the current directory 
+(.findex) that contains an index for files in the directory in which it 
+resides. It is a key-value pair storage format, and each file can have 
+an infinite amount of tags applied to it. For instance, if the user has 
+an index of music files, they can use findex to assign a "title", 
+"description", "artist", and "date" to each entry.
+.br
+By default, \fBfindex\fR will locate the \fB.findex\fR file in the user's
+current directory to inspect. The user can override this using the
+\fB--file / -f\fR option. 
 
-For instance, if the user has an index of music files, they can use findex to assign a "title", "description", "artist", and "date" to each entry. 
 
 .SH FORMAT
-The findex file format is relatively simple: the filename, followed by the token character, followed by the attribute name, followed by the pair character, followed by the attribute's description. Multiple subsequent attributes can be stored in a file by looping the token character, attribute name, pair character, then attribute description. 
+The findex file format is relatively simple: the filename, followed by 
+the token character, followed by the attribute name, followed by the 
+pair character, followed by the attribute's description. Multiple subsequent 
+attributes can be stored in a file by looping the token character, attribute 
+name, pair character, then attribute description. 
 
 .SH SEE ALSO
 .B findex_gen(1)
