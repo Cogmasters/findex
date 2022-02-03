@@ -4,14 +4,14 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <string.h>
-#include <dirent.h>
 
 #include "findex.h"
 #include "libarg/libarg.h"
 
-/* findex_gen
+/* findex_prompt
  *
- * Generate a findex database.
+ * Prompt the user for values to insert into a .findex file.
+ * Similar to findex_gen, but it does not require UNIX headers.
  */
 
 
@@ -34,7 +34,7 @@ int file_exists(const char *path) {
 void check_errors(struct LibargProgram program, char* filename) {
     /* Display the help message, and tell the user to RTFM */
     if(libarg_get_option("--help", program) != -1 || libarg_get_option("-h", program) != -1) {
-        printf("%s", "Usage: findex_gen FILE [--help | -h] [--file | -f filename] [--attr | -a attribute]\n");
+        printf("%s", "Usage: findex_prompt FILE [--help | -h] [--file | -f filename] [--attr | -a attribute]\n");
         printf("%s", "Produce a lookup database for findex.\n");
         printf("%s", "\n");
         printf("%s", "    --help, -h      display this message\n");
@@ -54,26 +54,22 @@ void check_errors(struct LibargProgram program, char* filename) {
 }
 
 void populate_database() {
-    struct dirent* de;
-    DIR* dr = opendir(".");
     char desc[FINDEX_DESC_LENGTH + 1]; /* This is plenty of room, "trust me" */
+    char file[FINDEX_DESC_LENGTH + 1];
+    for(;;) {
+        printf("Filename? ");
+        fgets(file, FINDEX_DESC_LENGTH, stdin);
 
-    if(dr == NULL) {
-        printf("Failed to open current directory.\n");
-        return;
-    }
+        printf("Description? ", file);
+        fgets(desc, FINDEX_DESC_LENGTH, stdin);
 
-    while((de = readdir(dr)) != NULL) {
-        if(!((strcmp(de->d_name, ".") == 0) || (strcmp(de->d_name, "..") == 0))) {
-            printf("%s for %s? ", attr_name, de->d_name);
-            //memset(desc, 0x00, 512);
-            fgets(desc, FINDEX_DESC_LENGTH, stdin);
-
+        if((strcmp(file, "\n") != 0) || (strcmp(desc, "\n") != 0)) {
             strtok(desc, "\n");
-
-            if(strcmp(desc, "") != 0) {
-                fprintf(output_file, "%s"  FINDEX_TOKEN_CHAR "%s"  FINDEX_PAIR_CHAR "%s\n", de->d_name, attr_name, desc);
-            }
+            strtok(file, "\n");
+            fprintf(output_file, "%s"  FINDEX_TOKEN_CHAR "%s"  FINDEX_PAIR_CHAR "%s\n", file, attr_name, desc);
+        }
+        else {
+            break;
         }
     }
 }
@@ -88,12 +84,12 @@ int main(int argc, char *argv[]) {
     struct LibargOption options[4] = {
         {"--help", "-h", NULL, NULL, 0},
         {"--file", "-f", NULL, NULL, 1},
-	{"--attr", "-a", NULL, NULL, 1},
+        {"--attr", "-a", NULL, NULL, 1},
         {LIBARG_OPTION_NULL}
     };
     struct LibargProgram program;
 
-    program.name = "findex_gen";
+    program.name = "findex_prompt";
     program.argv = argv;
     program.argc = argc;
     program.options = options;
@@ -101,19 +97,21 @@ int main(int argc, char *argv[]) {
 
     if(libarg_get_option("--file", program) != -1) {
         output_filename = argv[libarg_get_option("--file", program) + 1];
-    } else {
+    }
+    else {
         output_filename = ".findex";
     }
-    
+
     if(libarg_get_option("--attr", program) != -1) {
 	    attr_name = argv[libarg_get_option("--attr", program) + 1];
-    } else {
+    }
+    else {
 	    attr_name = "description";
     }
 
     check_errors(program, output_filename);
 
-    printf("Generating database file...\nStrike RETURN to skip a line.\n");
+    printf("Generating database file...\nRespond to prompts, enter a blank line to quit.\n");
     output_file = fopen(output_filename, "w");
 
     if(!output_file) {

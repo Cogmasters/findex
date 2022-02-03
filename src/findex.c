@@ -50,8 +50,15 @@ int main(int argc, char *argv[]) {
         {"--file", "-f", NULL, NULL, 1},
         {LIBARG_OPTION_NULL}
     };
-    struct LibargProgram program = {"findex", argv, argc, options, arguments};
+    struct LibargProgram program;
     char* findex_filename;
+    
+    /* C89 workaround because immediate structs must be static */
+    program.name = "findex";
+    program.argv = argv;
+    program.argc = argc;
+    program.options = options;
+    program.arguments = arguments;
 
     if(libarg_get_option("--file", program) != -1) {
         findex_filename = argv[libarg_get_option("--file", program) + 1];
