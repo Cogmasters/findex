@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <fcntl.h>
-#include <unistd.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 
 #include "findex.h"
-#include "libarg/libarg.h"
+#include "libarg.h"
 
 int file_exists(const char *path) {
     struct stat stat_buffer = {0};
