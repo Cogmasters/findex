@@ -7,7 +7,7 @@
 #include <dirent.h>
 
 #include "findex.h"
-#include "libarg/libarg.h"
+#include "libarg.h"
 
 /* findex_gen
  *

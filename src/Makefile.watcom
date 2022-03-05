@@ -1,0 +1,21 @@
+SYSTEM=nt
+CC = wcc386
+LINK = wlink
+CFLAGS = -d0
+OBJS_COMMON = lookup.obj delimiter.obj libarg.obj
+OBJS_FINDEX = findex.obj
+OBJS_FIDXPRM = findex_prompt.obj
+PROGS = findex.exe findex_prompt.exe
+
+all: $(PROGS)
+
+
+.c.obj:
+	$(CC) -bt=$(SYSTEM) $(CFLAGS) $<
+
+clean:
+	del $(OBJS_COMMON) $(OBJS_FINDEX) $(OBJS_FIDXPRM) $(PROGS)
+
+$(PROGS): $(OBJS_COMMON) $(OBJS_FINDEX) $(OBJS_FINDEX) $(OBJS_FIDXPRM)
+	$(LINK) system $(SYSTEM) name findex.exe file findex.obj file lookup.obj file delimiter.obj file libarg.obj
+	$(LINK) system $(SYSTEM) name findex_prompt.exe file findex_prompt.obj file lookup.obj file delimiter.obj file libarg.obj

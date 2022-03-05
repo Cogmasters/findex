@@ -1,0 +1,20 @@
+CC = cl
+LINK = link
+CFLAGS = 
+OBJS_COMMON = lookup.obj delimiter.obj libarg.obj
+OBJS_FINDEX = findex.obj
+OBJS_FIDXPRM = findex_prompt.obj
+PROGS = findex.exe findex_prompt.exe
+
+all: $(PROGS)
+
+
+.c.obj:
+	$(CC) /c $(CFLAGS) $<
+
+clean:
+	del $(OBJS_COMMON) $(OBJS_FINDEX) $(OBJS_FIDXPRM) $(PROGS)
+
+$(PROGS): $(OBJS_COMMON) $(OBJS_FINDEX) $(OBJS_FINDEX) $(OBJS_FIDXPRM)
+	$(LINK) /out:findex.exe $(OBJS_COMMON) $(OBJS_FINDEX)
+	$(LINK) /out:findex_prompt.exe $(OBJS_COMMON) $(OBJS_FIDXPRM)
